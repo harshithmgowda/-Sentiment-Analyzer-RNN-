@@ -409,9 +409,12 @@ st.markdown("""
 # ==========================================
 st.markdown("""
 <div class="swiss-header">
-    <div class="swiss-category">DEEP LEARNING · RECURRENT NEURAL NETWORK</div>
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.35rem;">
+        <div class="swiss-category">DEEP LEARNING · RECURRENT NEURAL NETWORK</div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; font-weight: 800; background-color: var(--pure-ink); color: #FFFFFF; padding: 0.25rem 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;">⚡ TRAINED BY THE RTX 5050</div>
+    </div>
     <h1 class="swiss-title">IMDb SENTIMENT ANALYZER</h1>
-    <div class="swiss-subtitle">Real-time Movie Review Sentiment Classification Powered by PyTorch Bi-directional LSTM</div>
+    <div class="swiss-subtitle">Real-time Movie Review Sentiment Classification Powered by PyTorch Bi-directional LSTM · <strong>Trained by the RTX 5050</strong></div>
 </div>
 """, unsafe_allow_html=True)
 
