@@ -51,10 +51,10 @@ except ImportError:
 
 # Page configuration
 st.set_page_config(
-    page_title="IMDb Sentiment // Swiss Grid NLP",
-    page_icon="🟥",
+    page_title="IMDb Sentiment Analyzer",
+    page_icon="🎬",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
 # ==========================================
@@ -64,7 +64,7 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
-    /* Universal Swiss Reset */
+    /* Universal Swiss Reset - Strict 0px radius, no shadows, no gradients */
     *, *::before, *::after {
         border-radius: 0px !important;
         box-shadow: none !important;
@@ -88,63 +88,39 @@ st.markdown("""
         -webkit-font-smoothing: antialiased;
     }
 
+    .main .block-container {
+        max-width: 1200px;
+        padding-top: 2rem;
+        padding-bottom: 3rem;
+    }
+
     [data-testid="stHeader"] {
         background-color: var(--basel-paper) !important;
         border-bottom: 1.5px solid var(--pure-ink) !important;
     }
 
-    /* Sidebar Styling */
-    [data-testid="stSidebar"] {
-        background-color: var(--grid-white) !important;
-        border-right: 1.5px solid var(--pure-ink) !important;
-    }
-
-    [data-testid="stSidebar"] > div:first-child {
-        background-color: var(--grid-white) !important;
-        padding-top: 1.5rem;
-    }
-
-    /* Top Masthead & Metadata Strip */
-    .swiss-meta-strip {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1.5px solid var(--pure-ink);
-        padding-bottom: 0.5rem;
-        margin-bottom: 1.2rem;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: var(--muted-swiss);
-    }
-
-    .swiss-meta-strip span.highlight {
-        color: var(--swiss-red);
-    }
-
+    /* Top Masthead */
     .swiss-header {
         border-bottom: 2px solid var(--pure-ink);
         padding-bottom: 1.2rem;
         margin-bottom: 1.8rem;
     }
 
-    .swiss-index-num {
-        font-family: 'Inter', sans-serif;
-        font-size: 0.85rem;
-        font-weight: 900;
-        color: var(--swiss-red);
-        letter-spacing: 0.15em;
+    .swiss-category {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
-        margin-bottom: 0.3rem;
+        color: var(--swiss-red);
+        margin-bottom: 0.35rem;
     }
 
     .swiss-title {
         font-family: 'Inter', sans-serif;
-        font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+        font-size: clamp(2.2rem, 4vw, 3.4rem);
         font-weight: 900;
-        line-height: 0.96;
+        line-height: 1.0;
         letter-spacing: -0.04em;
         text-transform: uppercase;
         color: var(--pure-ink);
@@ -153,10 +129,9 @@ st.markdown("""
 
     .swiss-subtitle {
         font-family: 'Inter', sans-serif;
-        font-size: 0.88rem;
-        font-weight: 600;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
+        font-size: 0.95rem;
+        font-weight: 500;
+        letter-spacing: 0.02em;
         color: var(--muted-swiss);
     }
 
@@ -165,10 +140,10 @@ st.markdown("""
         border-top: 1.5px solid var(--pure-ink);
         border-bottom: 1px solid var(--grid-line);
         padding: 0.5rem 0;
-        margin: 1.2rem 0 1rem 0;
+        margin: 0.8rem 0 1rem 0;
         display: flex;
         align-items: baseline;
-        gap: 0.75rem;
+        gap: 0.6rem;
     }
 
     .swiss-section-idx {
@@ -176,89 +151,15 @@ st.markdown("""
         font-weight: 800;
         color: var(--swiss-red);
         font-size: 0.82rem;
-        letter-spacing: 0.1em;
+        letter-spacing: 0.08em;
     }
 
     .swiss-section-title {
         font-family: 'Inter', sans-serif;
         font-weight: 800;
-        font-size: 1.05rem;
-        text-transform: uppercase;
-        letter-spacing: 0.02em;
-        color: var(--pure-ink);
-    }
-
-    /* Sidebar Modular Containers */
-    .sidebar-block {
-        border: 1.5px solid var(--pure-ink);
-        background-color: var(--grid-white);
-        padding: 0.9rem;
-        margin-bottom: 1.2rem;
-    }
-
-    .sidebar-block-header {
-        font-family: 'Inter', sans-serif;
-        font-size: 0.75rem;
-        font-weight: 900;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: var(--pure-ink);
-        border-bottom: 1.5px solid var(--pure-ink);
-        padding-bottom: 0.4rem;
-        margin-bottom: 0.6rem;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .sidebar-grid-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.3rem 0;
-        border-bottom: 1px solid var(--grid-line);
-        font-size: 0.80rem;
-    }
-
-    .sidebar-grid-row:last-child {
-        border-bottom: none;
-    }
-
-    .sidebar-label {
-        font-weight: 600;
-        color: var(--muted-swiss);
+        font-size: 0.98rem;
         text-transform: uppercase;
         letter-spacing: 0.04em;
-        font-size: 0.74rem;
-    }
-
-    .sidebar-val {
-        font-family: 'JetBrains Mono', monospace;
-        font-weight: 700;
-        color: var(--pure-ink);
-    }
-
-    /* Swiss Status Badges */
-    .swiss-status-pill {
-        display: inline-block;
-        padding: 0.35rem 0.6rem;
-        border: 1.5px solid var(--pure-ink);
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.75rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        width: 100%;
-        text-align: center;
-        background-color: var(--grid-white);
-    }
-
-    .swiss-status-pill.online {
-        background-color: var(--pure-ink);
-        color: var(--grid-white);
-    }
-
-    .swiss-status-pill.offline {
-        background-color: var(--basel-paper);
         color: var(--pure-ink);
     }
 
@@ -270,9 +171,9 @@ st.markdown("""
         font-family: 'Inter', sans-serif !important;
         font-weight: 800 !important;
         font-size: 0.82rem !important;
-        letter-spacing: 0.08em !important;
+        letter-spacing: 0.06em !important;
         text-transform: uppercase !important;
-        padding: 0.55rem 1rem !important;
+        padding: 0.55rem 0.9rem !important;
         transition: all 0.12s ease-in-out !important;
     }
 
@@ -288,7 +189,7 @@ st.markdown("""
         color: var(--grid-white) !important;
         border: 1.5px solid var(--pure-ink) !important;
         font-weight: 900 !important;
-        letter-spacing: 0.12em !important;
+        letter-spacing: 0.1em !important;
         font-size: 0.92rem !important;
         padding: 0.75rem 1rem !important;
     }
@@ -317,24 +218,24 @@ st.markdown("""
     .swiss-card {
         border: 1.5px solid var(--pure-ink);
         background-color: var(--grid-white);
-        padding: 1.4rem;
-        margin-bottom: 1.2rem;
+        padding: 1.3rem;
+        margin-bottom: 1rem;
     }
 
     .swiss-card-pos {
-        border: 2px solid var(--pure-ink);
+        border: 1.5px solid var(--pure-ink);
         background-color: var(--grid-white);
-        border-left: 10px solid var(--pure-ink);
-        padding: 1.4rem;
-        margin-bottom: 1.2rem;
+        border-left: 8px solid var(--pure-ink);
+        padding: 1.3rem;
+        margin-bottom: 1rem;
     }
 
     .swiss-card-neg {
-        border: 2px solid var(--pure-ink);
+        border: 1.5px solid var(--pure-ink);
         background-color: var(--grid-white);
-        border-left: 10px solid var(--swiss-red);
-        padding: 1.4rem;
-        margin-bottom: 1.2rem;
+        border-left: 8px solid var(--swiss-red);
+        padding: 1.3rem;
+        margin-bottom: 1rem;
     }
 
     .swiss-badge-top {
@@ -342,16 +243,16 @@ st.markdown("""
         justify-content: space-between;
         align-items: baseline;
         font-family: 'JetBrains Mono', monospace;
-        font-size: 0.72rem;
+        font-size: 0.74rem;
         font-weight: 700;
-        letter-spacing: 0.12em;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
-        margin-bottom: 0.4rem;
+        margin-bottom: 0.35rem;
     }
 
     .sentiment-huge-text {
         font-family: 'Inter', sans-serif;
-        font-size: 2.4rem;
+        font-size: 2.3rem;
         font-weight: 900;
         letter-spacing: -0.03em;
         line-height: 1;
@@ -365,7 +266,7 @@ st.markdown("""
     }
 
     .sentiment-desc {
-        font-size: 0.85rem;
+        font-size: 0.88rem;
         font-weight: 500;
         color: var(--muted-swiss);
         margin-top: 0.3rem;
@@ -388,9 +289,9 @@ st.markdown("""
 
     .swiss-metric-lbl {
         font-family: 'JetBrains Mono', monospace;
-        font-size: 0.68rem;
+        font-size: 0.7rem;
         font-weight: 700;
-        letter-spacing: 0.1em;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
         color: var(--muted-swiss);
     }
@@ -408,7 +309,7 @@ st.markdown("""
     div[data-testid="stProgress"] > div {
         background-color: var(--grid-line) !important;
         border: 1px solid var(--pure-ink) !important;
-        height: 14px !important;
+        height: 12px !important;
     }
 
     div[data-testid="stProgress"] > div > div {
@@ -420,27 +321,27 @@ st.markdown("""
         font-family: 'Inter', sans-serif !important;
         font-weight: 800 !important;
         font-size: 0.84rem !important;
-        letter-spacing: 0.08em !important;
+        letter-spacing: 0.06em !important;
         text-transform: uppercase !important;
         color: var(--muted-swiss) !important;
         border: 1px solid var(--grid-line) !important;
         background-color: var(--basel-paper) !important;
-        padding: 0.6rem 1.2rem !important;
-        margin-right: 0.3rem !important;
+        padding: 0.65rem 1.4rem !important;
+        margin-right: 0.4rem !important;
     }
 
     button[data-baseweb="tab"][aria-selected="true"] {
         color: var(--pure-ink) !important;
         background-color: var(--grid-white) !important;
         border: 1.5px solid var(--pure-ink) !important;
-        border-bottom: 1.5px solid var(--swiss-red) !important;
+        border-bottom: 2px solid var(--swiss-red) !important;
     }
 
     /* Expander */
     div[data-testid="stExpander"] {
         border: 1.5px solid var(--pure-ink) !important;
         background-color: var(--grid-white) !important;
-        margin-top: 1rem !important;
+        margin-top: 0.9rem !important;
     }
 
     /* Figure frame for Tab 2 */
@@ -455,7 +356,7 @@ st.markdown("""
         font-family: 'JetBrains Mono', monospace;
         font-size: 0.72rem;
         font-weight: 700;
-        letter-spacing: 0.12em;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
         border-bottom: 1.5px solid var(--pure-ink);
         padding-bottom: 0.35rem;
@@ -468,159 +369,75 @@ st.markdown("""
     div[data-testid="stCodeBlock"] {
         border: 1.5px solid var(--pure-ink) !important;
     }
+
+    /* Architecture grid in Tab 3 */
+    .spec-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+    }
+
+    .spec-table td {
+        padding: 0.5rem 0.6rem;
+        border-bottom: 1px solid var(--grid-line);
+    }
+
+    .spec-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .spec-key {
+        font-weight: 700;
+        color: var(--muted-swiss);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-size: 0.76rem;
+        width: 40%;
+    }
+
+    .spec-val {
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 700;
+        color: var(--pure-ink);
+    }
 </style>
 """, unsafe_allow_html=True)
-
-
-# ==========================================
-# SIDEBAR // SYS.00 TELEMETRY & HARDWARE
-# ==========================================
-with st.sidebar:
-    st.markdown("""
-    <div style="border-bottom: 2px solid #0A0A0A; padding-bottom: 0.6rem; margin-bottom: 1rem;">
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 800; color: #E53935; letter-spacing: 0.15em;">SYS.00 // TELEMETRY</div>
-        <div style="font-family: 'Inter', sans-serif; font-size: 1.25rem; font-weight: 900; letter-spacing: -0.02em; text-transform: uppercase; color: #0A0A0A;">MODEL & HARDWARE</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # Hardware Block
-    if torch.cuda.is_available():
-        gpu_name = torch.cuda.get_device_name(0)
-        st.markdown(f"""
-        <div class="sidebar-block">
-            <div class="sidebar-block-header">
-                <span>00.1 / ACCELERATOR</span>
-                <span style="color: #E53935;">● ACTIVE</span>
-            </div>
-            <div class="swiss-status-pill online">CUDA GPU ONLINE</div>
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.70rem; color: #5C5C58; margin-top: 0.5rem; text-align: center;">
-                {gpu_name}
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-    else:
-        st.markdown("""
-        <div class="sidebar-block">
-            <div class="sidebar-block-header">
-                <span>00.1 / ACCELERATOR</span>
-                <span>○ STANDBY</span>
-            </div>
-            <div class="swiss-status-pill offline">CPU MODE ACTIVE</div>
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.70rem; color: #5C5C58; margin-top: 0.5rem; text-align: center;">
-                NO CUDA HARDWARE ACCELERATOR
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    # Model Specification Block
-    arch_display = f"BIDIRECTIONAL {RNN_TYPE.upper()}" if BIDIRECTIONAL else RNN_TYPE.upper()
-    st.markdown(f"""
-    <div class="sidebar-block">
-        <div class="sidebar-block-header">
-            <span>00.2 / ARCHITECTURE</span>
-            <span>SPEC.V2</span>
-        </div>
-        <div class="sidebar-grid-row">
-            <span class="sidebar-label">TOPOLOGY</span>
-            <span class="sidebar-val">{arch_display}</span>
-        </div>
-        <div class="sidebar-grid-row">
-            <span class="sidebar-label">EMBED DIM</span>
-            <span class="sidebar-val">{EMBEDDING_DIM}</span>
-        </div>
-        <div class="sidebar-grid-row">
-            <span class="sidebar-label">HIDDEN DIM</span>
-            <span class="sidebar-val">{HIDDEN_DIM}</span>
-        </div>
-        <div class="sidebar-grid-row">
-            <span class="sidebar-label">LAYERS</span>
-            <span class="sidebar-val">{NUM_LAYERS}</span>
-        </div>
-        <div class="sidebar-grid-row">
-            <span class="sidebar-label">DROPOUT</span>
-            <span class="sidebar-val">{DROPOUT}</span>
-        </div>
-        <div class="sidebar-grid-row">
-            <span class="sidebar-label">SEQ LENGTH</span>
-            <span class="sidebar-val">{MAX_SEQUENCE_LENGTH} WDS</span>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # Project Checkpoint Status
-    dataset_status = "FOUND" if Path(DATASET_PATH).exists() else "CLOUD_PRE"
-    vocab_status = "FOUND" if Path(VOCAB_PATH).exists() else "MISSING"
-    model_status = "FOUND" if (Path(BEST_MODEL_PATH).exists() or Path(MODEL_PATH).exists()) else "UNTRAINED"
-
-    st.markdown(f"""
-    <div class="sidebar-block">
-        <div class="sidebar-block-header">
-            <span>00.3 / ASSETS CHECK</span>
-            <span>STORAGE</span>
-        </div>
-        <div class="sidebar-grid-row">
-            <span class="sidebar-label">DATASET CORPUS</span>
-            <span class="sidebar-val" style="color: {'#0A0A0A' if dataset_status == 'FOUND' else '#E53935'};">[{dataset_status}]</span>
-        </div>
-        <div class="sidebar-grid-row">
-            <span class="sidebar-label">VOCABULARY</span>
-            <span class="sidebar-val" style="color: {'#0A0A0A' if vocab_status == 'FOUND' else '#E53935'};">[{vocab_status}]</span>
-        </div>
-        <div class="sidebar-grid-row">
-            <span class="sidebar-label">MODEL WEIGHTS</span>
-            <span class="sidebar-val" style="color: {'#0A0A0A' if model_status == 'FOUND' else '#E53935'};">[{model_status}]</span>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: #5C5C58; text-transform: uppercase; letter-spacing: 0.1em; text-align: center; border-top: 1px solid #E0E0DC; padding-top: 0.6rem;">
-        INTERNATIONAL TYPOGRAPHIC ORDER<br>ZÜRICH / BASEL · PYTORCH 2.0+
-    </div>
-    """, unsafe_allow_html=True)
 
 
 # ==========================================
 # MAIN APPLICATION // MASTHEAD
 # ==========================================
 st.markdown("""
-<div class="swiss-meta-strip">
-    <div>EDITION // 2026.01</div>
-    <div>SYSTEM // <span class="highlight">PYTORCH DEEP RNN</span></div>
-    <div>COLLECTION // NLP-04</div>
-    <div>COORDINATES // 47°22'N 8°32'E</div>
-</div>
-
 <div class="swiss-header">
-    <div class="swiss-index-num">NO. 01 / RECURRENT NEURAL NETWORK SERIES</div>
-    <h1 class="swiss-title">IMDb SENTIMENT<br>ANALYZER</h1>
-    <div class="swiss-subtitle">International Typographic Style · Rigorous Natural Language Processing Architecture</div>
+    <div class="swiss-category">DEEP LEARNING · RECURRENT NEURAL NETWORK</div>
+    <h1 class="swiss-title">IMDb SENTIMENT ANALYZER</h1>
+    <div class="swiss-subtitle">Real-time Movie Review Sentiment Classification Powered by PyTorch Bi-directional LSTM</div>
 </div>
 """, unsafe_allow_html=True)
 
 
 tab1, tab2, tab3 = st.tabs([
-    "01 // INFERENCE ENGINE",
-    "02 // EVALUATION & METRICS",
-    "03 // PIPELINE PROTOCOL"
+    "ANALYZE REVIEW",
+    "EVALUATION & PLOTS",
+    "MODEL SPECS & PIPELINE GUIDE"
 ])
 
 # ----------------------------------------------------
 # TAB 1: INFERENCE ENGINE
 # ----------------------------------------------------
 with tab1:
-    col_left, col_right = st.columns([1.15, 0.85], gap="large")
+    col_left, col_right = st.columns([1.1, 0.9], gap="large")
 
     with col_left:
         st.markdown("""
         <div class="swiss-section-header">
-            <span class="swiss-section-idx">SEC. 01.1</span>
-            <span class="swiss-section-title">INPUT REVIEW CORPUS</span>
+            <span class="swiss-section-idx">01</span>
+            <span class="swiss-section-title">INPUT REVIEW</span>
         </div>
         """, unsafe_allow_html=True)
 
         st.markdown(
-            "<div style=\"font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: #5C5C58; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem;\">SELECT CALIBRATED SAMPLE:</div>",
+            "<div style=\"font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; color: #5C5C58; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.4rem;\">QUICK PRESETS:</div>",
             unsafe_allow_html=True
         )
 
@@ -629,32 +446,32 @@ with tab1:
         sample_negative = "A terrible waste of time. Painfully boring plot, flat dialogue, and awful acting throughout."
         sample_mixed = "The cinematography and special effects were stunning, but the story was weak and predictable."
 
-        if preset_cols[0].button("[01] MASTERPIECE", use_container_width=True):
+        if preset_cols[0].button("★ Masterpiece", use_container_width=True):
             st.session_state["review_text"] = sample_positive
-        if preset_cols[1].button("[02] TERRIBLE", use_container_width=True):
+        if preset_cols[1].button("✕ Terrible", use_container_width=True):
             st.session_state["review_text"] = sample_negative
-        if preset_cols[2].button("[03] MIXED", use_container_width=True):
+        if preset_cols[2].button("≈ Mixed", use_container_width=True):
             st.session_state["review_text"] = sample_mixed
 
         current_val = st.session_state.get("review_text", "")
         
-        st.markdown("<div style='height: 0.4rem;'></div>", unsafe_allow_html=True)
+        st.markdown("<div style='height: 0.3rem;'></div>", unsafe_allow_html=True)
         user_review = st.text_area(
-            "Review Input Buffer",
+            "Review Input Text",
             value=current_val,
             height=150,
-            placeholder="Type or paste critical film review text here...",
+            placeholder="Type or paste a movie review to analyze its sentiment...",
             label_visibility="collapsed"
         )
 
-        st.markdown("<div style='height: 0.4rem;'></div>", unsafe_allow_html=True)
-        analyze_clicked = st.button("EXECUTE SENTIMENT INFERENCE →", type="primary", use_container_width=True)
+        st.markdown("<div style='height: 0.3rem;'></div>", unsafe_allow_html=True)
+        analyze_clicked = st.button("ANALYZE SENTIMENT →", type="primary", use_container_width=True)
 
     with col_right:
         st.markdown("""
         <div class="swiss-section-header">
-            <span class="swiss-section-idx">SEC. 01.2</span>
-            <span class="swiss-section-title">CLASSIFICATION MATRIX</span>
+            <span class="swiss-section-idx">02</span>
+            <span class="swiss-section-title">ANALYSIS RESULT</span>
         </div>
         """, unsafe_allow_html=True)
 
@@ -662,17 +479,17 @@ with tab1:
             if not user_review.strip():
                 st.markdown("""
                 <div class="swiss-card" style="border-left: 8px solid #E53935;">
-                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; font-weight: 700; color: #E53935; text-transform: uppercase;">
-                        [ALERT // BUFFER_EMPTY]
+                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700; color: #E53935; text-transform: uppercase;">
+                        INPUT REQUIRED
                     </div>
-                    <div style="font-size: 0.85rem; font-weight: 500; margin-top: 0.3rem;">
-                        Input review text cannot be blank. Enter a review or choose a calibrated preset on the left.
+                    <div style="font-size: 0.88rem; margin-top: 0.3rem; color: #0A0A0A;">
+                        Please enter a review or click one of the quick presets on the left.
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
             else:
                 try:
-                    with st.spinner("PROCESSING TENSOR THROUGH NETWORK..."):
+                    with st.spinner("Analyzing sentiment..."):
                         result = predict_sentiment(user_review)
 
                     is_pos = result["prediction"] == "Positive"
@@ -684,12 +501,12 @@ with tab1:
                         st.markdown(f"""
                         <div class="swiss-card-pos">
                             <div class="swiss-badge-top">
-                                <span style="color: #0A0A0A;">CLASS // POS-01</span>
+                                <span style="color: #0A0A0A; font-weight: 800;">CLASSIFICATION</span>
                                 <span style="color: #5C5C58;">CONFIDENCE: {conf * 100:.1f}%</span>
                             </div>
                             <div class="sentiment-huge-text">POSITIVE</div>
                             <div class="sentiment-desc">
-                                Recurrent cell activations registered dominant positive cinematic polarity.
+                                The model detected strong positive sentiment in this review.
                             </div>
                         </div>
                         """, unsafe_allow_html=True)
@@ -697,12 +514,12 @@ with tab1:
                         st.markdown(f"""
                         <div class="swiss-card-neg">
                             <div class="swiss-badge-top">
-                                <span style="color: #E53935;">CLASS // NEG-00</span>
+                                <span style="color: #E53935; font-weight: 800;">CLASSIFICATION</span>
                                 <span style="color: #5C5C58;">CONFIDENCE: {conf * 100:.1f}%</span>
                             </div>
                             <div class="sentiment-huge-text neg">NEGATIVE</div>
                             <div class="sentiment-desc">
-                                Recurrent cell activations registered critical adverse sentiment signals.
+                                The model detected negative sentiment in this review.
                             </div>
                         </div>
                         """, unsafe_allow_html=True)
@@ -711,11 +528,11 @@ with tab1:
                     st.markdown(f"""
                     <div class="swiss-metric-grid">
                         <div class="swiss-metric-box">
-                            <div class="swiss-metric-lbl">P(POSITIVE) PROBABILITY</div>
+                            <div class="swiss-metric-lbl">POSITIVE PROBABILITY</div>
                             <div class="swiss-metric-val">{prob * 100:.1f}%</div>
                         </div>
                         <div class="swiss-metric-box">
-                            <div class="swiss-metric-lbl">CONFIDENCE INDEX</div>
+                            <div class="swiss-metric-lbl">CONFIDENCE SCORE</div>
                             <div class="swiss-metric-val">{conf * 100:.1f}%</div>
                         </div>
                     </div>
@@ -723,17 +540,17 @@ with tab1:
 
                     st.markdown("<div style='height: 0.8rem;'></div>", unsafe_allow_html=True)
                     st.markdown(
-                        "<div style=\"font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 700; color: #5C5C58; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem;\">PROBABILITY SCALE [0.0 → 1.0]:</div>",
+                        "<div style=\"font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 700; color: #5C5C58; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.2rem;\">PROBABILITY SCALE [0.0 → 1.0]:</div>",
                         unsafe_allow_html=True
                     )
                     st.progress(float(prob))
 
-                    with st.expander("PREPROCESSED TOKENS // INSPECTION"):
+                    with st.expander("VIEW PREPROCESSED TOKENS"):
                         st.markdown(f"""
                         <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; line-height: 1.6;">
                             <div><strong>TOKEN COUNT:</strong> {result['tokens_count']} tokens</div>
-                            <div style="margin-top: 0.4rem;"><strong>CLEANED STRING:</strong></div>
-                            <div style="background: #F7F7F5; border: 1px solid #E0E0DC; padding: 0.5rem; margin-top: 0.2rem; word-break: break-word;">
+                            <div style="margin-top: 0.4rem;"><strong>CLEANED TEXT:</strong></div>
+                            <div style="background: #FFFFFF; border: 1px solid #0A0A0A; padding: 0.5rem; margin-top: 0.2rem; word-break: break-word;">
                                 {result['clean_text']}
                             </div>
                         </div>
@@ -742,28 +559,28 @@ with tab1:
                 except FileNotFoundError as err:
                     st.markdown(f"""
                     <div class="swiss-card" style="border-left: 8px solid #E53935;">
-                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; font-weight: 700; color: #E53935;">
-                            [ERROR // MODEL_CHECKPOINT_MISSING]
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700; color: #E53935;">
+                            MODEL CHECKPOINT NOT FOUND
                         </div>
-                        <div style="font-size: 0.85rem; margin-top: 0.3rem;">
+                        <div style="font-size: 0.88rem; margin-top: 0.3rem;">
                             {str(err)}
                         </div>
                     </div>
                     """, unsafe_allow_html=True)
                 except Exception as ex:
-                    st.error(f"RUNTIME EXCEPTION: {str(ex)}")
+                    st.error(f"Error during prediction: {str(ex)}")
         else:
             st.markdown("""
             <div class="swiss-card">
                 <div class="swiss-badge-top">
-                    <span>STATE // READY</span>
-                    <span style="color: #E53935;">IDLE</span>
+                    <span>STATUS</span>
+                    <span style="color: #E53935;">READY</span>
                 </div>
-                <div style="font-family: 'Inter', sans-serif; font-size: 1.25rem; font-weight: 900; letter-spacing: -0.02em; text-transform: uppercase; color: #0A0A0A;">
-                    AWAITING INFERENCE EXECUTION
+                <div style="font-family: 'Inter', sans-serif; font-size: 1.2rem; font-weight: 900; letter-spacing: -0.02em; text-transform: uppercase; color: #0A0A0A;">
+                    READY FOR REVIEW
                 </div>
                 <div class="sentiment-desc" style="margin-top: 0.4rem;">
-                    Submit a review in the input buffer or trigger a sample on the left. The bidirectional recurrent network will compute real-time classification metrics.
+                    Enter a movie review on the left and click <strong>Analyze Sentiment</strong> to see the real-time classification and confidence score.
                 </div>
             </div>
             """, unsafe_allow_html=True)
@@ -775,8 +592,8 @@ with tab1:
 with tab2:
     st.markdown("""
     <div class="swiss-section-header">
-        <span class="swiss-section-idx">SEC. 02.0</span>
-        <span class="swiss-section-title">EMPIRICAL EVALUATION & CONVERGENCE</span>
+        <span class="swiss-section-idx">01</span>
+        <span class="swiss-section-title">TRAINING CURVES & EVALUATION METRICS</span>
     </div>
     """, unsafe_allow_html=True)
 
@@ -791,8 +608,8 @@ with tab2:
         st.markdown("""
         <div class="swiss-figure-frame">
             <div class="swiss-fig-header">
-                <span>FIG. 01 // CONVERGENCE DYNAMICS</span>
-                <span>LOSS TRAJECTORY</span>
+                <span>TRAINING & VALIDATION LOSS</span>
+                <span>LOSS CURVE</span>
             </div>
         """, unsafe_allow_html=True)
         if loss_img.exists():
@@ -805,8 +622,8 @@ with tab2:
         st.markdown("""
         <div class="swiss-figure-frame">
             <div class="swiss-fig-header">
-                <span>FIG. 02 // GENERALIZATION METRIC</span>
-                <span>ACCURACY TRAJECTORY</span>
+                <span>TRAINING & VALIDATION ACCURACY</span>
+                <span>ACCURACY CURVE</span>
             </div>
         """, unsafe_allow_html=True)
         if acc_img.exists():
@@ -821,8 +638,8 @@ with tab2:
         st.markdown("""
         <div class="swiss-figure-frame">
             <div class="swiss-fig-header">
-                <span>FIG. 03 // ERROR MATRIX</span>
-                <span>UNSEEN TEST SET</span>
+                <span>TEST CONFUSION MATRIX</span>
+                <span>HELD-OUT TEST SET</span>
             </div>
         """, unsafe_allow_html=True)
         if cm_img.exists():
@@ -835,8 +652,8 @@ with tab2:
         st.markdown("""
         <div class="swiss-figure-frame">
             <div class="swiss-fig-header">
-                <span>FIG. 04 // CLASSIFICATION REPORT</span>
-                <span>QUANTITATIVE METRICS</span>
+                <span>EVALUATION REPORT</span>
+                <span>TEST METRICS</span>
             </div>
         """, unsafe_allow_html=True)
         if eval_txt.exists():
@@ -848,80 +665,78 @@ with tab2:
 
 
 # ----------------------------------------------------
-# TAB 3: PIPELINE PROTOCOL
+# TAB 3: MODEL SPECS & PIPELINE GUIDE
 # ----------------------------------------------------
 with tab3:
     st.markdown("""
     <div class="swiss-section-header">
-        <span class="swiss-section-idx">SEC. 03.0</span>
-        <span class="swiss-section-title">REPRODUCIBILITY & EXECUTION PROTOCOL</span>
+        <span class="swiss-section-idx">01</span>
+        <span class="swiss-section-title">MODEL ARCHITECTURE & HYPERPARAMETERS</span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    col_spec1, col_spec2 = st.columns(2, gap="medium")
+
+    arch_display = f"Bidirectional {RNN_TYPE.upper()}" if BIDIRECTIONAL else RNN_TYPE.upper()
+    device_label = "CUDA GPU" if torch.cuda.is_available() else "CPU"
+
+    with col_spec1:
+        st.markdown(f"""
+        <div class="swiss-card">
+            <div class="swiss-badge-top">
+                <span>SPECIFICATIONS</span>
+                <span style="color: #E53935;">CONFIG</span>
+            </div>
+            <table class="spec-table">
+                <tr><td class="spec-key">Model Type</td><td class="spec-val">{arch_display}</td></tr>
+                <tr><td class="spec-key">Embedding Dim</td><td class="spec-val">{EMBEDDING_DIM}</td></tr>
+                <tr><td class="spec-key">Hidden Units</td><td class="spec-val">{HIDDEN_DIM}</td></tr>
+                <tr><td class="spec-key">Layers</td><td class="spec-val">{NUM_LAYERS}</td></tr>
+                <tr><td class="spec-key">Dropout</td><td class="spec-val">{DROPOUT}</td></tr>
+                <tr><td class="spec-key">Max Sequence</td><td class="spec-val">{MAX_SEQUENCE_LENGTH} words</td></tr>
+                <tr><td class="spec-key">Execution Device</td><td class="spec-val">{device_label}</td></tr>
+            </table>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col_spec2:
+        dataset_status = "Available" if Path(DATASET_PATH).exists() else "Pre-trained (Cloud)"
+        vocab_status = "Available" if Path(VOCAB_PATH).exists() else "Missing"
+        model_status = "Trained & Available" if (Path(BEST_MODEL_PATH).exists() or Path(MODEL_PATH).exists()) else "Not Trained"
+
+        st.markdown(f"""
+        <div class="swiss-card">
+            <div class="swiss-badge-top">
+                <span>CHECKPOINT ASSETS</span>
+                <span style="color: #E53935;">STORAGE</span>
+            </div>
+            <table class="spec-table">
+                <tr><td class="spec-key">Dataset</td><td class="spec-val">{dataset_status}</td></tr>
+                <tr><td class="spec-key">Vocabulary</td><td class="spec-val">{vocab_status}</td></tr>
+                <tr><td class="spec-key">Model Weights</td><td class="spec-val">{model_status}</td></tr>
+            </table>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="swiss-section-header" style="margin-top: 1.5rem;">
+        <span class="swiss-section-idx">02</span>
+        <span class="swiss-section-title">EXECUTION COMMANDS</span>
     </div>
     """, unsafe_allow_html=True)
 
     col_g1, col_g2 = st.columns(2, gap="medium")
 
     with col_g1:
-        st.markdown("""
-        <div class="swiss-card">
-            <div class="swiss-badge-top">
-                <span>STEP 01</span>
-                <span style="color: #E53935;">TRAINING</span>
-            </div>
-            <div style="font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 800; text-transform: uppercase;">
-                01 // COMPILE & TRAIN RECURRENT NETWORK
-            </div>
-            <div class="sentiment-desc" style="margin-bottom: 0.6rem;">
-                Initializes embedding matrix, loads vocabulary, and runs training loops with gradient clipping.
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown("**1. Train Model:**")
         st.code("python src/train.py", language="bash")
 
-        st.markdown("""
-        <div class="swiss-card" style="margin-top: 1.2rem;">
-            <div class="swiss-badge-top">
-                <span>STEP 03</span>
-                <span style="color: #E53935;">CLI INFERENCE</span>
-            </div>
-            <div style="font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 800; text-transform: uppercase;">
-                03 // TEST DISCRETE INFERENCE
-            </div>
-            <div class="sentiment-desc" style="margin-bottom: 0.6rem;">
-                Executes single-sample inference from the terminal buffer with tokenization logs.
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-        st.code('python src/predict.py "A transcendent cinematic masterpiece!"', language="bash")
+        st.markdown("**3. Test CLI Prediction:**")
+        st.code('python src/predict.py "A breathtaking cinematic masterpiece!"', language="bash")
 
     with col_g2:
-        st.markdown("""
-        <div class="swiss-card">
-            <div class="swiss-badge-top">
-                <span>STEP 02</span>
-                <span style="color: #E53935;">BENCHMARK</span>
-            </div>
-            <div style="font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 800; text-transform: uppercase;">
-                02 // INDEPENDENT TEST EVALUATION
-            </div>
-            <div class="sentiment-desc" style="margin-bottom: 0.6rem;">
-                Evaluates the best checkpoint against the held-out test split, saving confusion matrix and metrics.
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown("**2. Evaluate on Test Set:**")
         st.code("python src/evaluate.py", language="bash")
 
-        st.markdown("""
-        <div class="swiss-card" style="margin-top: 1.2rem;">
-            <div class="swiss-badge-top">
-                <span>STEP 04</span>
-                <span style="color: #E53935;">INTERFACE</span>
-            </div>
-            <div style="font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 800; text-transform: uppercase;">
-                04 // LAUNCH SWISS GRID WEB APP
-            </div>
-            <div class="sentiment-desc" style="margin-bottom: 0.6rem;">
-                Launches the local Streamlit development server running the International Typographic interface.
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown("**4. Launch Web Application:**")
         st.code("streamlit run app.py", language="bash")
