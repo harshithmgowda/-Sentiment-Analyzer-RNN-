@@ -1,0 +1,24 @@
+=== Sentiment RNN Model Evaluation ===
+Model Checkpoint: C:\Users\Harshith\OneDrive\Desktop\RNN_NLP_PROJECT\models\best_rnn_model.pth
+Architecture: LSTM (Bidirectional=True)
+Test Samples: 4959
+
+Accuracy  : 88.32%
+Precision : 87.54%
+Recall    : 89.47%
+F1 Score  : 88.50%
+
+Classification Report:
+              precision    recall  f1-score   support
+
+    Negative       0.89      0.87      0.88      2470
+    Positive       0.88      0.89      0.88      2489
+
+    accuracy                           0.88      4959
+   macro avg       0.88      0.88      0.88      4959
+weighted avg       0.88      0.88      0.88      4959
+
+
+Confusion Matrix:
+[[2153  317]
+ [ 262 2227]]

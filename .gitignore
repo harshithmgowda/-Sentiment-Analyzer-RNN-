@@ -1,0 +1,36 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches and virtual environments
+.pytest_cache/
+.idea/
+.vscode/
+venv/
+.venv/
+env/
+ENV/
+
+# Large Datasets (Avoid exceeding GitHub 100MB limit & Streamlit slug limit)
+dataset/*.csv
+dataset/*.tar.gz
+dataset/aclImdb/
+dataset/aclImdb*
+src/_raw_dataset/
+
+# Ensure vocabulary file is tracked for model inference
+!dataset/vocab.pkl
+
+# Keep best trained model weights, ignore other temporary weights
+models/*
+!models/best_rnn_model.pth
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Do not track README or deployment markdown files
+README.md
+STREAMLIT_DEPLOYMENT_GUIDE.md
+
